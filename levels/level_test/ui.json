@@ -1,0 +1,16 @@
+{
+    "info": "LEVEL 0",
+    "canvas" : true,
+    "label" : [
+        {
+            "position_x" : 10,
+            "position_y" : 10,
+            "text" : "play"
+        },
+        {
+            "position_x" : 50,
+            "position_y" : 50,
+            "text" : "test"
+        }
+    ]
+}
