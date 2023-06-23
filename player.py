@@ -17,6 +17,8 @@ class Player():
     def update(self, tile_level : list):
         match self.state:
             case 'PLAY':
+                self.gravity()
+
                 self.move(tile_level=tile_level)
 
             case "DEATH":
@@ -24,7 +26,8 @@ class Player():
                 if finished_anim:
                     self.state = 'SPAWN'
             case "WIN":
-                self.move(tile_level=tile_level)
+                self.velocity[0] = 0
+                self.gravity()
 
             case 'SPAWN':
                 finished_anim = self.player_spawn(tile_level)
@@ -47,7 +50,6 @@ class Player():
             self.player_spawn(tile_level=tile_level)
         self.is_on_ground = False
 
-        self.gravity()
         self.canvas_collision()
         self.tile_collision(tile_level)
 
