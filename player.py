@@ -102,16 +102,6 @@ class Player():
             self.velocity[1] = 2
 
     def canvas_collision(self) -> None:
-        """
-        if self.position[0] + self.velocity[0] < 1: 
-            self.velocity[0] = 1 - self.position[0]
-
-        if self.position[0] + self.collider[0]  + self.velocity[0] > GAME_SIZE + 1: 
-            self.velocity[0] = GAME_SIZE+1 - self.position[0] + self.collider[0]
-
-        if self.position[1] + self.velocity[1] < 1: 
-            self.velocity[1] = 1 - self.position[1]
-        """
         bottom = self.position[1] + self.collider[1] 
         if bottom  > GAME_SIZE + 1: 
             self.state = "DEATH"

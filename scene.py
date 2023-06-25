@@ -13,14 +13,23 @@ class Scene():
         game_viewport : pygame.Surface = pygame.Surface((GAME_SIZE+2,GAME_SIZE+2))
         game_viewport.fill(BACKGROUND_COLOR)
 
-        if self.player.state == "WIN":
+        if self.game_ui.state == "FINISH":
             self.load_level(self.level + 1)
 
-        self.player.update(self.tilemap.tile_level)
+        if self.game_ui.state == "GAME" and self.player == None:
+            self.instance_player()
+            
+        if self.player:
+            if self.player.state == "WIN":
+                self.game_ui.run_finish_anim()
+            self.player.update(self.tilemap.tile_level)
+
+        self.game_ui.update()
 
         game_viewport.blit(self.tilemap.surface, (1,1))
 
-        pygame.draw.rect(game_viewport, self.player.color, self.player.rect)
+        if self.player:
+            pygame.draw.rect(game_viewport, self.player.color, self.player.rect)
 
         game_viewport.blit(self.game_ui.surface, (0, 0))
 
@@ -34,10 +43,13 @@ class Scene():
 
         self.tilemap = Tilemap(f'level_{self.level}') 
 
-        self.player : Player = Player(tile_level=self.tilemap.tile_level)
+        self.player = None
 
         self.game_ui : Ui = Ui(f'level_{self.level}')
         pass
+
+    def instance_player(self,):
+        self.player : Player = Player(tile_level=self.tilemap.tile_level)
 
     def scaled_viewport(self, game_viewport):
         display_size = pygame.display.get_window_size()

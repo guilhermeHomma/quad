@@ -9,11 +9,14 @@ screen = pygame.display.set_mode((720,720), pygame.RESIZABLE)
 
 game_scene : Scene = Scene()
 
-while True:
+IS_RUNNING : bool = True
+while IS_RUNNING:
     clock.tick(30)
+    
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
-            pygame.quit()
+            #pygame.quit()
+            IS_RUNNING = False
     
     screen.fill(BACKGROUND_COLOR)
 
