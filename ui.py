@@ -33,7 +33,7 @@ class Ui():
 
     def run_start_anim(self):
         self.animation = animation.Animation()
-        self.animation.start(80, 12, False, None)
+        self.animation.start(1, GAME_SIZE/3, False, None)
         self.state = "START_ANIM"
         pass
 
@@ -41,16 +41,28 @@ class Ui():
         if self.state == "FINISH_ANIM":
             return
         self.animation = animation.Animation()
-        self.animation.start(80, 12, False, None)
+        self.animation.start(1, GAME_SIZE/3, False, None)
         self.state = "FINISH_ANIM"
         pass
     
     def start_anim(self):
+        surf = self.get_surface()
+
+        draw = (1, 1, GAME_SIZE -self.animation.current_frame * 3, GAME_SIZE)
+
+        pygame.draw.rect(surf, [0,0,0], draw)
+
+        self.surface = surf
         pass
 
     def finish_anim(self):
         surf = self.get_surface()
-        print("TIMES")
+
+        draw = (1, 1, self.animation.current_frame * 3, GAME_SIZE)
+
+        pygame.draw.rect(surf, [0,0,0], draw)
+
+        self.surface = surf
         pass
 
     def update(self):
