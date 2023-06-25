@@ -4,9 +4,15 @@ from ui import *
 from tilemap import *
 from settings import *
 
+
+
 class Scene():
     def __init__(self):
         self.load_level(0)
+        self.music = pygame.mixer.music.load('assets/songs/quadSong.mp3')
+        pygame.mixer.music.play(-1)
+        pygame.mixer.music.set_volume(0.6)
+
         pass
 
     def update(self):
@@ -46,6 +52,7 @@ class Scene():
         self.player = None
 
         self.game_ui : Ui = Ui(f'level_{self.level}')
+
         pass
 
     def instance_player(self,):

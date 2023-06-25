@@ -12,6 +12,11 @@ class Player():
         self.is_on_ground : bool = False
         
         self.state : str = 'SPAWN'
+
+        self.jump_sound = pygame.mixer.Sound('assets/sounds/jumpSound.mp3')
+        
+        self.death_sound = pygame.mixer.Sound('assets/sounds/deathSound.mp3')
+
         pass
 
     def update(self, tile_level : list):
@@ -26,8 +31,7 @@ class Player():
                 if finished_anim:
                     self.state = 'SPAWN'
             case "WIN":
-                self.velocity[0] = 0
-                self.gravity()
+                pass
 
             case 'SPAWN':
                 finished_anim = self.player_spawn(tile_level)
@@ -45,6 +49,8 @@ class Player():
 
         if pygame.key.get_pressed()[pygame.K_SPACE] and self.is_on_ground:
             self.velocity[1] = -JUMP_FORCE
+            #print(pygame.mixer.get_num_channels())
+            self.jump_sound.play()
         
         if pygame.key.get_pressed()[pygame.K_TAB]:
             self.player_spawn(tile_level=tile_level)
@@ -56,7 +62,7 @@ class Player():
         self.position[0] += int(self.velocity[0])
         self.position[1] += int(self.velocity[1])
 
-        if self.velocity[1] <= -3.5:
+        if self.velocity[1] <= -3.0:
             self.size = [2, 5]
             self.rect = (self.position[0] + 1, self.position[1] -1, self.size[0], self.size[1])
         else:
@@ -92,7 +98,7 @@ class Player():
         return True
     
     def death_anim(self):
-
+        self.death_sound.play()
         return True
                     
     def gravity(self) -> None:
@@ -107,6 +113,13 @@ class Player():
             self.state = "DEATH"
         pass
 
+    def on_win(self):
+        self.state = "WIN"
+        pygame.mixer.Sound('assets/sounds/spawnSound.mp3').play()
+        self.velocity[0] = 0
+        self.gravity()
+        pass
+
     def end_collision(self, x, y) -> None:
         tile_pos = (x * TILE_SIZE + 1, y * TILE_SIZE + 1)
 
@@ -115,7 +128,10 @@ class Player():
         collision = pygame.Rect((self.position[0], self.position[1]), (self.collider[0], self.collider[1])).colliderect(tile_rect)
         if not collision:
             return
-        self.state = "WIN"
+
+        self.on_win()
+        
+
 
     def fire_collision(self, x, y) -> None:
         tile_pos = (x * TILE_SIZE + 1, y * TILE_SIZE + 8)

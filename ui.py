@@ -11,7 +11,7 @@ class Ui():
         self.ui_level : dict = json.load(open(f'levels/{level_path}/ui.json'))
         self.canvas = (0, 0, GAME_SIZE+2, GAME_SIZE+2)
         self.color = CANVAS_COLOR
-        self.font = pygame.font.Font(("assets/pixelart.ttf"), 8)
+        self.font = pygame.font.Font(("assets/fonts/pixelart.ttf"), 8)
         self.surface = self.get_surface()
         
         self.animation = animation.Animation()
